@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 配置包扫描器 -->
+    <context:component-scan base-package="com.hwhl.shengxian"></context:component-scan>
+    <!-- 配置注解驱动 -->
+	<mvc:annotation-driven/>
+	<!-- 静态资源映射 -->
+	<mvc:resources mapping="/statics/**" location="/statics/" ></mvc:resources>
+	<!--<mvc:resources mapping="/css/**" location="/css/" ></mvc:resources>-->
+	<!--<mvc:resources mapping="/images/**" location="/images/" ></mvc:resources>-->
+	<!--定时-->
+	<task:annotation-driven/>
+	<context:annotation-config/>
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+
+
+	<!--视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+
+	<!-- 设置请求映射器 -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+
+	<!-- 设置适配器处理器 -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<bean id="logAopAction" class="com.hwhl.shengxian.util.interceptor.LogAopAction"/>
+
+	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
+    <bean id="mappingJacksonHttpMessageConverter"
+        class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+				<value>text/html;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 -->
+    <bean
+        class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="mappingJacksonHttpMessageConverter" />
+                <!-- JSON转换器 -->
+            </list>
+        </property>
+    </bean>
+
+	<!--拦截器 -->
+	<mvc:interceptors>
+		<bean class="com.hwhl.shengxian.filter.InterceptorEncoding" /><!-- 用于编码 -->
+		<bean class="com.hwhl.shengxian.filter.UserLoginInterceptor"><!-- 用于检测session里的用户是否正确 -->
+			<property name="excludedUrls">
+				<list>
+					<!-- 不需要session里的用户可以访问 -->
+					<value>/admin/login.do</value><!--登陆-->
+					<value>/admin/findAdminList.do</value>
+					<value>/admin/error.do</value>
+					<!-- 错误跳转需要添加，参照class ErrorCode -->
+				</list>
+			</property>
+		</bean>
+	</mvc:interceptors>
+
+	<!-- 将Controller抛出的异常转到特定View,异常映射处理器 -->
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionAttribute" value="ex"></property>
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.lang.Exception">error</prop><!-- 捕捉所有异常，但做事务处理就不能捕捉，否则不能回滚操作 -->
+			</props>
+		</property>
+	</bean>
+	<!-- 上传文件 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8" />
+		<!-- 以字节为单位的最大上传文件的大小 -->
+		<property name="maxUploadSize" value="100000" />
+	</bean>
+
+	<!-- 开发环境配置文件 -->
+	<beans profile="development">
+		<context:property-placeholder location="classpath:properties/development-*.properties"/>
+	</beans>
+	<!-- 生产环境配置文件 -->
+	<!--<beans profile="production">-->
+		<!--<context:property-placeholder location="classpath:properties/production-*.properties"/>-->
+	<!--</beans>-->
+
+</beans>        

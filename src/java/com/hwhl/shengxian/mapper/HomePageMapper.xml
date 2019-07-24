@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hwhl.shengxian.mapper.HomePageMapper">
+
+    <!--获取系统公告-->
+    <select id="findNoticeList" resultType="HashMap">
+        select id,noticeContent,distinguish,releaseTime from shengxian_notice where distinguish in (1,2)
+    </select>
+
+    <!--获取电子协议-->
+    <select id="findAgreementList" resultType="HashMap">
+        select id,noticeContent,distinguish,releaseTime from shengxian_notice where distinguish in (3,4)
+    </select>
+
+    <!--通过id获取系统公告/电子协议-->
+    <select id="findNotice" resultType="HashMap">
+        select id,noticeContent,distinguish,releaseTime from shengxian_notice where id=#{id}
+    </select>
+
+    <!--修改系统公告/电子协议-->
+    <update id="updateNotice">
+        UPDATE shengxian_notice
+        <trim prefix="set" suffixOverrides=",">
+            <if test="noticeContent != null and noticeContent != ''"> noticeContent=#{noticeContent},</if>
+            <if test="distinguish != null and distinguish != ''"> distinguish=#{distinguish},</if>
+            <if test="releaseTime != null and releaseTime != ''"> releaseTime=#{releaseTime},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+    <!--异步获取三个不同端的版本号-->
+    <select id="version" resultType="HashMap">
+        select id,version,create_time ,type from version
+    </select>
+
+    <!--修改版本号-->
+    <update id="updateVersion">
+        update version set version =#{version},create_time=#{create_time} where id=#{id}
+    </update>
+
+</mapper>    

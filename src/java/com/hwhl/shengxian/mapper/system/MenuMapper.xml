@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hwhl.shengxian.mapper.system.MenuMapper">
+
+    <!--首页一级权限菜单-->
+    <select id="homeMenu" resultType="Menu">
+        select m.id,`code`,`name`,link from notesnic_admin_menu m
+        inner join (
+        select substring_index(substring_index(r.role,',',b.help_topic_id+1),',',-1)id
+        from notesnic_admin_role  r
+        join mysql.help_topic b on b.help_topic_id &lt;(length(r.role) - length(replace(r.role,',',''))+1)
+        where r.id= #{id} )a on a.id=m.id
+        where m.level =1   order by m.id asc
+    </select>
+
+    <!--首页二级权限菜单-->
+    <select id="homeTwoMenu" resultType="Menus">
+        select m.id,`code`,`name`,link from notesnic_admin_menu m
+        inner join (
+        select substring_index(substring_index(r.role,',',b.help_topic_id+1),',',-1)id
+        from notesnic_admin_role  r
+        join mysql.help_topic b on b.help_topic_id &lt;(length(r.role) - length(replace(r.role,',',''))+1)
+        where r.id= #{id} )a on a.id=m.id
+        where m.level =2   and m.menuid=#{menuid}
+        order by m.sort asc
+    </select>
+
+
+
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="code != null and code != ''">code,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="link != null and link != ''">link,</if>
+            <if test="sort != null">sort,</if>
+            <if test="level != null">level,</if>
+            <if test="menuid != null">menuid,</if>
+            <if test="isDele != null">isDele,</if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="code != null and code != ''">#{code},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="link != null and link != ''">#{link},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="level != null">#{level},</if>
+            <if test="menuid != null">#{menuid},</if>
+            <if test="isDele != null">#{isDele},</if>
+        </trim>
+    </sql>
+    <!--添加菜单-->
+    <insert id="addMenu">
+        INSERT INTO notesnic_admin_menu (<include refid="key"/>)VALUES (<include refid="value"/>);
+    </insert>
+
+    <!--查询后台一级列表-->
+    <select id="findListOnes" resultType="Menu">
+        select id,`code`,`name`,link from notesnic_admin_menu where `level`in (1) order by sort asc
+    </select>
+
+    <!--查询后台的二级列表-->
+    <select id="findListTwos" resultType="Menus">
+        select id,`name`,link from notesnic_admin_menu where `level`=2 and menuid=#{0} order by sort asc
+    </select>
+
+    <select id="findFatherById" resultType="String">
+        select menuid from notesnic_admin_menu where id=#{0}
+    </select>
+
+    <select id="findMenuList" resultType="Menu">
+        SELECT m.id,m.code,m.name,m.link,m.sort,m.level,m.menuid,m.isDele
+        FROM notesnic_admin_menu m
+        WHERE isDele in(0,1)
+        <if test="id != null">
+            AND m.id=#{id}
+        </if>
+        <if test="name != null and name != ''">
+            AND m.name LIKE CONCAT('%',#{name},'%')
+        </if>
+        <if test="level != null">
+            and m.level=#{level}
+        </if>
+    </select>
+
+    <!--根据ID查询菜单-->
+    <select id="findMenu" resultType="Menu">
+        SELECT m.id,m.code,m.name,m.link,m.sort,m.level,m.menuid
+        FROM notesnic_admin_menu m
+        WHERE isDele = 0 and m.id=#{id}
+    </select>
+
+
+
+
+    <!--修改菜单  或删除菜单-->
+    <update id="updateMenu">
+        UPDATE notesnic_admin_menu
+        <trim prefix="set" suffixOverrides=",">
+            <if test="code != null and code != ''">code=#{code},</if>
+            <if test="name != null and name != ''">name=#{name},</if>
+            <if test="link != null and link != ''">link=#{link},</if>
+            <if test="sort != null ">sort=#{sort},</if>
+            <if test="level != null ">level=#{level},</if>
+            <if test="menuid != null ">menuid=#{menuid},</if>
+            <if test="isDele != null ">isDele=#{isDele},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+
+</mapper>

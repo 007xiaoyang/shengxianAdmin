@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hwhl.shengxian.mapper.BroadcastPictureMapper">
+
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="figure != null and figure != ''">figure,</if>
+            <if test="url != null and url != ''">url,</if>
+            <if test="sort != null and sort != ''">sort,</if>
+            <if test="distinguish != null and distinguish != ''">distinguish,</if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="figure != null and figure != ''">#{figure},</if>
+            <if test="url != null and url != ''">#{url},</if>
+            <if test="sort != null and sort != ''">#{sort},</if>
+            <if test="distinguish != null and distinguish != ''">#{distinguish},</if>
+        </trim>
+    </sql>
+
+    <!--添加轮播图-->
+    <insert id="addBroadcastPicture">
+        INSERT INTO shengxian_broadcastpicture(<include refid="key"/> )VALUES (<include refid="value"/> )
+    </insert>
+
+    <!--修改轮播图-->
+    <update id="updateBroadcastPicture" >
+        UPDATE shengxian_broadcastpicture
+        <trim prefix="set" suffixOverrides=",">
+            <if test="figure != null and figure != ''">figure=#{figure},</if>
+            <if test="url != null and url != ''">url=#{url},</if>
+            <if test="sort != null and sort != ''">sort=#{sort},</if>
+            <if test="distinguish != null and distinguish != ''">distinguish=#{distinguish},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleBroadcastPicture">
+        DELETE FROM shengxian_broadcastpicture where id=#{id}
+    </delete>
+
+    <select id="findBroadcastPictureList" resultType="BroadcastPicture">
+        select id,figure,url,sort,distinguish from shengxian_broadcastpicture  ORDER BY distinguish,sort
+    </select>
+
+    <select id="findBroadcastPictureListCount" resultType="Integer">
+         select count(1) from shengxian_broadcastpicture
+    </select>
+
+    <select id="findBroadcastPictureById" resultType="BroadcastPicture">
+        select * from shengxian_broadcastpicture WHERE id=#{id}
+    </select>
+
+
+</mapper>    

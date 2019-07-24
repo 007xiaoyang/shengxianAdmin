@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hwhl.shengxian.mapper.GoodsMapper">
+
+    <!--查询（线上）的商品列表总数-->
+    <select id="selectOnlineGoodsListCount" resultType="Integer">
+        select count(g.id) from shengxian_goods g
+        inner join(select id,store_name,number,is_del from  shengxian_business) b on b.is_del=0 and b.id=g.business_id
+        inner join shengxian_goods_category gc on gc.id=g.category_id
+        where g.is_del=0 and g.status=2
+        <if test="business_id != null">
+            and g.business_id=#{business_id}
+        </if>
+        <if test="store_name != null and store_name != ''">
+            and (b.store_name  LIKE CONCAT('%',#{store_name},'%') or b.number LIKE CONCAT('%',#{store_name},'%'))
+        </if>
+        <if test="name != null and name != ''">
+            and (g.name LIKE CONCAT('%',#{name},'%') or g.number LIKE CONCAT('%',#{name},'%') )
+        </if>
+    </select>
+    <!--查询（线上）的商品列表-->
+    <select id="selectOnlineGoodsList" resultType="HashMap">
+        select b.store_name,g.id,g.name,g.number,g.units,g.spec ,g.status,
+        (select img from shengxian_goods_img where goods_id=g.id limit 1)img1,
+        (select img from shengxian_goods_img where goods_id=g.id limit 1,1)img2,
+        (select img from shengxian_goods_img where goods_id=g.id limit 2,1)img3
+        from shengxian_goods g
+        inner join(select id,store_name,number,is_del from  shengxian_business) b on b.is_del=0 and b.id=g.business_id
+        inner join shengxian_goods_category gc on gc.id=g.category_id
+        where g.is_del=0 and g.status=2 
+        <if test="business_id != null">
+            and g.business_id=#{business_id}
+        </if>
+        <if test="store_name != null and store_name != ''">
+            and (b.store_name  LIKE CONCAT('%',#{store_name},'%') or b.number LIKE CONCAT('%',#{store_name},'%'))
+        </if>
+        <if test="name != null and name != ''">
+            and (g.name LIKE CONCAT('%',#{name},'%') or g.number LIKE CONCAT('%',#{name},'%') )
+        </if>
+        order by g.id limit #{startIndex},#{pageSize}
+    </select>
+
+
+    <!--查询（线下）的商品列表总数-->
+    <select id="selectUnderGoodsListCount" resultType="Integer">
+        select count(g.id) from shengxian_goods g
+        inner join(select id,store_name,number,is_del from  shengxian_business) b on b.is_del=0 and b.id=g.business_id
+        inner join shengxian_goods_category gc on gc.id=g.category_id
+        where g.is_del=0 and g.status in (0,3,4)
+        <if test="business_id != null">
+            and g.business_id=#{business_id}
+        </if>
+        <if test="store_name != null and store_name != ''">
+            and (b.store_name  LIKE CONCAT('%',#{store_name},'%') or b.number LIKE CONCAT('%',#{store_name},'%'))
+        </if>
+        <if test="name != null and name != ''">
+            and (g.name LIKE CONCAT('%',#{name},'%') or g.number LIKE CONCAT('%',#{name},'%') )
+        </if>
+    </select>
+    <!--查询（线下）的商品列表-->
+    <select id="selectUnderGoodsList" resultType="HashMap">
+        select b.store_name,g.id,g.name,g.number,g.units,g.spec ,g.status,
+        (select img from shengxian_goods_img where goods_id=g.id limit 1)img1,
+        (select img from shengxian_goods_img where goods_id=g.id limit 1,1)img2,
+        (select img from shengxian_goods_img where goods_id=g.id limit 2,1)img3
+        from shengxian_goods g
+        inner join(select id,store_name,number,is_del from  shengxian_business) b on b.is_del=0 and b.id=g.business_id
+        inner join shengxian_goods_category gc on gc.id=g.category_id
+        where g.is_del=0 and g.status in (0,3,4)
+        <if test="business_id != null">
+            and g.business_id=#{business_id}
+        </if>
+        <if test="store_name != null and store_name != ''">
+            and (b.store_name  LIKE CONCAT('%',#{store_name},'%') or b.number LIKE CONCAT('%',#{store_name},'%'))
+        </if>
+        <if test="name != null and name != ''">
+            and (g.name LIKE CONCAT('%',#{name},'%') or g.number  LIKE CONCAT('%',#{name},'%') )
+        </if>
+        order by g.id limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--产品下架-->
+    <update id="updateGoodsStatus">
+        update shengxian_goods set status=#{status} where id=#{id}
+    </update>
+
+    <!--搜索商家-->
+    <select id="selectBusienss" resultType="HashMap">
+        select id ,store_name,number from shengxian_business where is_del=0
+    </select>
+
+    <!--通过商家id获取商家名称-->
+    <select id="selectBusienssById" resultType="HashMap">
+        select id ,store_name from shengxian_business where is_del=0 and id=#{id}
+    </select>
+
+
+    <!--上架的积分产品列表总数-->
+    <select id="upperIntegraGoodsListCount" resultType="Integer">
+        select count(g.id) from shengxian_integr_goods g
+        inner join shengxian_business b on b.id = g.business_id
+        inner join shengxian_integr_goods_category gc on gc.id=g.category_id
+        where g.is_del=0 and b.is_del=0 and g.status=2
+        <if test="business_id != null">
+            and g.business_id=#{business_id}
+        </if>
+        <if test="store_name != null and store_name != ''">
+            and (b.store_name  LIKE CONCAT('%',#{store_name},'%') or b.number LIKE CONCAT('%',#{store_name},'%'))
+        </if>
+        <if test="name != null and name != ''">
+            and (g.name LIKE CONCAT('%',#{name},'%') or g.number  LIKE CONCAT('%',#{name},'%') )
+        </if>
+    </select>
+
+    <!--上架的积分产品列表-->
+    <select id="upperIntegraGoodsLis" resultType="HashMap">
+        select b.store_name,g.id,g.img,g.name,g.number,g.units,g.spec ,g.status from shengxian_integr_goods g
+        inner join shengxian_business b on b.id = g.business_id
+        inner join shengxian_integr_goods_category gc on gc.id=g.category_id
+        where g.is_del=0 and b.is_del=0 and g.status=2
+        <if test="business_id != null">
+            and g.business_id=#{business_id}
+        </if>
+        <if test="store_name != null and store_name != ''">
+            and (b.store_name  LIKE CONCAT('%',#{store_name},'%') or b.number LIKE CONCAT('%',#{store_name},'%'))
+        </if>
+        <if test="name != null and name != ''">
+            and (g.name LIKE CONCAT('%',#{name},'%') or g.number  LIKE CONCAT('%',#{name},'%') )
+        </if>
+        order by g.id limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--下架的积分产品列表总数-->
+    <select id="lowerIntegraGoodsLisCount" resultType="Integer">
+        select count(g.id) from shengxian_integr_goods g
+        inner join shengxian_business b on b.id = g.business_id
+        inner join shengxian_integr_goods_category gc on gc.id=g.category_id
+        where g.is_del=0 and b.is_del=0 and g.status in (0,1,3,4)
+        <if test="business_id != null">
+            and g.business_id=#{business_id}
+        </if>
+        <if test="store_name != null and store_name != ''">
+            and (b.store_name  LIKE CONCAT('%',#{store_name},'%') or b.number LIKE CONCAT('%',#{store_name},'%'))
+        </if>
+        <if test="name != null and name != ''">
+            and (g.name LIKE CONCAT('%',#{name},'%') or g.number  LIKE CONCAT('%',#{name},'%') )
+        </if>
+    </select>
+
+    <!--下架的积分产品列表-->
+    <select id="lowerIntegraGoodsLis" resultType="HashMap">
+        select b.store_name,g.id,g.img,g.name,g.number,g.units,g.spec ,g.status from shengxian_integr_goods g
+        inner join shengxian_business b on b.id = g.business_id
+        inner join shengxian_integr_goods_category gc on gc.id=g.category_id
+        where g.is_del=0 and b.is_del=0 and g.status in (0,1,3,4)
+        <if test="business_id != null">
+            and g.business_id=#{business_id}
+        </if>
+        <if test="store_name != null and store_name != ''">
+            and (b.store_name  LIKE CONCAT('%',#{store_name},'%') or b.number LIKE CONCAT('%',#{store_name},'%'))
+        </if>
+        <if test="name != null and name != ''">
+            and (g.name LIKE CONCAT('%',#{name},'%') or g.number  LIKE CONCAT('%',#{name},'%') )
+        </if>
+        order by g.id limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--积分产品下架-->
+    <update id="updateIntegarGoodsStatus">
+        update shengxian_integr_goods set status =#{status} where id=#{id}
+    </update>
+
+
+
+
+
+
+
+
+    <!--投诉处理总数-->
+    <select id="witnessesCount" resultType="Integer">
+        select count(a.id)
+        from (
+        (select c.id,b.store_name,b.number,c.content,c.phone,c.create_time,c.state,c.business_id,
+        (select img from shengxian_complaints_img where  c.id = complaints_id order by id asc limit 1)img1,
+        (select img from shengxian_complaints_img where  c.id = complaints_id order by id asc limit 1 ,1)img2,
+        (select img from shengxian_complaints_img where  c.id = complaints_id order by id asc limit 2,1)img3
+        from shengxian_complaints c
+        inner join shengxian_business b on b.id=c.business_id
+        where b.is_del=0 and c.state in (0,1) )
+        UNION ALL
+        (select c.id,b.store_name,b.number,c.content,c.phone,c.create_time,c.state,c.business_id,
+        (select img from shengxian_complaints_img where  c.id = complaints_id order by id asc limit 1)img1,
+        (select img from shengxian_complaints_img where  c.id = complaints_id order by id asc limit 1 ,1)img2,
+        (select img from shengxian_complaints_img where  c.id = complaints_id order by id asc limit 2,1)img3
+        from shengxian_complaints c
+        inner join shengxian_business b on b.id=c.business_id
+        where b.is_del=0 and c.state=2 and DATE_FORMAT(c.create_time,'%Y-%m-%d') >= DATE_SUB(CURDATE(),INTERVAL 5 day))) a
+        where 1=1
+        <if test="business_id != null">
+            and a.business_id=#{business_id}
+        </if>
+        <if test="store_name != null and store_name != ''">
+            and (a.store_name  LIKE CONCAT('%',#{store_name},'%') or a.number LIKE CONCAT('%',#{store_name},'%'))
+        </if>
+    </select>
+
+    <!--投诉处理-->
+    <select id="witnesses" resultType="HashMap">
+        select a.id,a.store_name,a.number,a.content,a.phone,a.state,a.create_time,a.img1,a.img2,a.img3
+        from (
+        (select c.id,b.store_name,b.number,c.content,c.phone,c.create_time,c.state,c.business_id,
+        (select img from shengxian_complaints_img where  c.id = complaints_id order by id asc limit 1)img1,
+        (select img from shengxian_complaints_img where  c.id = complaints_id order by id asc limit 1 ,1)img2,
+        (select img from shengxian_complaints_img where  c.id = complaints_id order by id asc limit 2,1)img3
+        from shengxian_complaints c
+        inner join shengxian_business b on b.id=c.business_id
+        where b.is_del=0 and c.state in (0,1) )
+        UNION ALL
+        (select c.id,b.store_name,b.number,c.content,c.phone,c.create_time,c.state,c.business_id,
+        (select img from shengxian_complaints_img where  c.id = complaints_id order by id asc limit 1)img1,
+        (select img from shengxian_complaints_img where  c.id = complaints_id order by id asc limit 1 ,1)img2,
+        (select img from shengxian_complaints_img where  c.id = complaints_id order by id asc limit 2,1)img3
+        from shengxian_complaints c
+        inner join shengxian_business b on b.id=c.business_id
+        where b.is_del=0 and c.state=2 and DATE_FORMAT(c.create_time,'%Y-%m-%d') >= DATE_SUB(CURDATE(),INTERVAL 5 day))) a
+        where 1=1
+        <if test="business_id != null">
+            and a.business_id=#{business_id}
+        </if>
+        <if test="store_name != null and store_name != ''">
+            and (a.store_name  LIKE CONCAT('%',#{store_name},'%') or a.number LIKE CONCAT('%',#{store_name},'%'))
+        </if>
+        order by a.state asc  limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--处理举报-->
+    <update id="updateWitnesses">
+        update shengxian_complaints set state =#{state} where id=#{id}
+    </update>
+
+
+</mapper>    

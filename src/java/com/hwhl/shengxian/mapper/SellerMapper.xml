@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hwhl.shengxian.mapper.SellerMapper">
+
+    <!--查询账号是否注册过了-->
+    <select id="selectIdByPhone" resultType="Integer">
+        select id from shengxian_business where phone=#{phone} and is_del=0
+    </select>
+
+    <!--查询最后一条编号-->
+    <select id="findBusinessLastNumber" resultType="String">
+        select number from shengxian_business order by id desc limit 1
+    </select>
+
+    <!--添加商家-->
+    <insert id="saveSeller" keyProperty="id"  useGeneratedKeys="true">
+        insert into shengxian_business(number,phone,password ,token ,name ,store_name ,illustrated ,remarks ,create_time)
+        values(#{number},#{phone},#{password} ,#{token} ,#{name},#{store_name},#{illustrated} ,#{remarks},#{create_time})
+    </insert>
+
+    <!--添加商家盘点状态-->
+    <insert id="addClerk">
+        insert into shengxian_business_check(business_id)values(#{business_id})
+    </insert>
+
+    <!--添加模板-->
+    <insert id="addTemplate">
+        insert into shengxian_template
+        (business_id,title,no,originator,name,phone,address,beizhu,serial,goods_name,number,unit_price,money,one,two,three,four,type)
+        values(#{business_id},#{title},#{no},#{originator},#{name},#{phone},#{address},#{beizhu},#{serial},#{goods_name},#{number},#{unit_price},#{money},#{one},#{two},#{three},#{four},#{type})
+    </insert>
+
+    <!--添加模板2-->
+    <insert id="addTemplateTwo">
+        insert into shengxian_template_two (business_id ,title ,type ,one )
+        values ( #{business_id} , #{title} , #{type} ,#{one}  )
+    </insert>
+
+    <!--添加模板3-->
+    <insert id="addTemplateThree">
+        insert into shengxian_template_three( business_id ,title ,type ,one )
+        values ( #{business_id} , #{title} , #{type} ,#{one} )
+    </insert>
+
+    <!--添加模板5-->
+    <insert id="addTemplateFive">
+        insert into shengxian_template_five( business_id ,title ,type ,one )
+        values ( #{business_id} , #{title} , #{type} ,#{one}  )
+    </insert>
+
+
+    <!--添加商家菜单方案-->
+    <insert id="addBusinessScheme">
+        insert into shengxian_business_scheme(scheme_id,business_id,scheme_name)
+        values(#{scheme_id},#{bid},#{name})
+    </insert>
+
+    <!--审核商家-->
+    <update id="updateAdopt">
+        update shengxian_business set if_adopt=1 ,duration=DATE_ADD(NOW(),INTERVAL 8 day) where id=#{id}
+    </update>
+
+    <!--通过id查询手机号-->
+    <select id="findPhone" resultType="String">
+        select phone from shengxian_business where is_del = 0  and id =#{id}
+    </select>
+
+    <!--查询手机号是存在-->
+    <select id="phoneIsExist" resultType="Integer">
+         select id from shengxian_business where is_del = 0  and phone =#{phone}
+    </select>
+
+    <!--修改商家信息-->
+    <update id="updateSeller">
+        UPDATE shengxian_business
+        <trim prefix="set" suffixOverrides=",">
+            <if test="category_id != null  ">category_id=#{category_id},</if>
+            <if test="number != null and number != '' ">number=#{number},</if>
+            <if test="phone != null and phone != ''">phone =#{phone},</if>
+            <if test="name != null and name != '' ">name=#{name},</if>
+            <if test="password != null and password != '' ">password=#{password},</if>
+            <if test="store_name != null and store_name != '' ">store_name=#{store_name},</if>
+            <if test="duration != null and duration != '' ">duration=#{duration},</if>
+            <if test="illustrated != null and illustrated != '' ">illustrated=#{illustrated},</if>
+            <if test="remarks != null and remarks != '' ">remarks=#{remarks},</if>
+            <if test="update_time != null and updateTime != '' ">updateTime=#{updateTime},</if>
+            <if test="is_disable != null ">is_disable=#{is_disable},</if>
+            <if test="power != null ">power=#{power},</if>
+            <if test="open != null ">open=#{open},</if>
+            <if test="status != null ">status =#{status},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+    <!--删除商家-->
+    <update id="deleteSeller">
+        update shengxian_business set is_del=1 where id=#{id}
+    </update>
+
+
+    <!--查询商家信息个数-->
+    <select id="findSellerCount" resultType="Integer">
+        SELECT count(id) from shengxian_business
+        WHERE is_del=0
+        <if test="business_id != null">
+            and id=#{business_id}
+        </if>
+        <if test="storeName != null and storeName != ''">
+            AND ( store_name LIKE CONCAT('%',#{storeName},'%') or number LIKE CONCAT('%',#{storeName},'%') )
+        </if>
+    </select>
+
+    <!--查询商家信息-->
+    <select id="findSellerList" resultType="HashMap">
+        SELECT id,if_adopt,number,phone,password,name,store_name,IFNULL(DATEDIFF(duration,NOW()),-1)days,
+        TDCode,illustrated,remarks,create_time,is_disable,power,invitation,open,notice,img,source
+        from shengxian_business
+        WHERE is_del=0
+        <if test="business_id != null">
+            and id=#{business_id}
+        </if>
+        <if test="storeName != null and storeName != ''">
+            AND ( store_name LIKE CONCAT('%',#{storeName},'%') or number LIKE CONCAT('%',#{storeName},'%') )
+        </if>
+        order by is_disable desc ,id desc limit #{startIndex},#{pageSize}
+    </select>
+
+    <update id="updateBusines">
+        update shengxian_business set is_disable =1 where id = #{id}
+    </update>
+
+
+    <!--根据ID查询商家信息-->
+    <select id="findSellerById" resultType="com.hwhl.shengxian.entity.Business">
+        SELECT id,if_adopt,number,phone,password,name,store_name,duration,TDCode,illustrated,remarks,create_time,is_disable,power,invitation,open
+        from shengxian_business where id=#{id} and is_del=0
+    </select>
+
+    <!--发送信息给商家-->
+    <insert id="addSellerSendInformation">
+        insert shengxian_business_push_message(business_id,message,create_time)VALUES (#{business_id},#{message},#{create_time})
+    </insert>
+
+    <!--通过服务商id查询绑定的客户总数-->
+    <select id="selectCustomerListCountById" resultType="Integer">
+        select count(b.id)
+        from shengxian_binding b,user u where u.id = b.user_id and b.business_id = #{id}
+        <if test="name != null and name != ''">
+            and b.user_name LIKE CONCAT('%',#{name},'%')
+        </if>
+    </select>
+    <!--通过服务商id查询绑定的客户列表-->
+    <select id="selectCustomerListById" resultType="HashMap">
+        select b.id,b.binding_time,b.user_name ,u.phone
+        from shengxian_binding b,user u where u.id = b.user_id and b.business_id = #{id}
+        <if test="name != null and name != ''">
+            and b.user_name LIKE CONCAT('%',#{name},'%')
+        </if>
+        order by b.binding_time desc limit #{startIndex},#{pageSize}
+    </select>
+
+
+    <!--通过id查询账号-->
+    <select id="findSellerAccountById" resultType="String">
+        select account from shengxian_seller where id=#{id}
+    </select>
+
+    <!--查询绑定表信息-->
+    <select id="selectBindingById" resultType="com.hwhl.shengxian.entity.Business">
+        select id,customerNumber,customerName,distribution,illustrated1,illustrated2,remarks1,remarks2,source
+        from shengxian_binding where id=#{id}
+    </select>
+
+    <!--修改使用期限权限-->
+    <update id="upateDurationJurisdiction">
+        update notesnic_admin set jur=#{jur} where id=#{id}
+    </update>
+
+    <!--查询商家营业执照-->
+    <select id="license" resultType="HashMap">
+        select id,img from shengxian_business_license where business_id=#{bid}
+    </select>
+
+    <!--上传营业执照-->
+    <insert id="addLicense">
+        insert into shengxian_business_license(business_id,img)values(#{bid},#{img})
+    </insert>
+
+    <!--删除营业执照-->
+    <delete id="deleteLicense">
+        delete from shengxian_business_license where id=#{id}
+    </delete>
+
+    <!--修改商家来源-->
+    <update id="updateBusinessSource">
+        update shengxian_business set source =#{source} where id=#{id}
+    </update>
+
+</mapper>    

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hwhl.shengxian.mapper.CustomerMapper">
+
+    <select id="customer" resultType="HashMap">
+        select id,phone  from user where is_del=0
+    </select>
+
+    <!--客户列表总数-->
+    <select id="jumpCoustomerListCount" resultType="Integer">
+        select count(id) from user where is_del=0
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="phone != null and phone != ''">
+            and phone=#{phone}
+        </if>
+    </select>
+
+    <!--客户列表-->
+    <select id="jumpCoustomerList" resultType="HashMap">
+        select id,phone ,is_disable,cate_time,power from user where is_del=0
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="phone != null and phone != ''">
+            and phone=#{phone}
+        </if>
+        order by is_disable desc ,id desc limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--查询客户账户-->
+    <select id="selectUserPhone" resultType="String">
+        select phone from user where is_del=0 and id=#{id}
+    </select>
+
+    <!--查询客户绑定多少个商家总数-->
+    <select id="customerBindingBusinessCount" resultType="Integer">
+        select count(b.id)
+        from shengxian_business b
+        inner join (select id ,business_id,is_del,user_id,binding_time from shengxian_binding )bd on  bd.business_id=b.id and bd.is_del=0
+        where b.is_del = 0 and bd.user_id = #{id}
+        <if test="name != null and name != ''">
+            and (b.store_name LIKE CONCAT('%',#{name},'%') or b.number LIKE CONCAT('%',#{name},'%') )
+        </if>
+    </select>
+
+    <!--查询客户绑定多少个商家-->
+    <select id="customerBindingBusiness" resultType="HashMap">
+        select b.id ,bd.user_id,b.phone,b.store_name,b.number,b.name,bd.binding_time  ,b.is_del from shengxian_business b
+        inner join (select id ,business_id,is_del,user_id,binding_time from shengxian_binding )bd on  bd.business_id=b.id and bd.is_del=0
+        where b.is_del = 0 and bd.user_id = #{id}
+        <if test="name != null and name != ''">
+            and (b.store_name LIKE CONCAT('%',#{name},'%') or b.number LIKE CONCAT('%',#{name},'%') )
+        </if>
+        order by bd.binding_time asc limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--删除客户-->
+    <update id="deleteCustomer">
+        update user set is_del=1 where id=#{0}
+    </update>
+
+    <!--查询手机号是否存在-->
+    <select id="selectIdByPhone" resultType="Integer">
+        select id from user where phone = #{phone} and is_del = 0
+    </select>
+
+    <!--添加客户-->
+    <insert id="addCustomer">
+        insert into user(phone,password,cate_time)values(#{phone},#{password},#{cate_time})
+    </insert>
+
+    <!--重置客户密码-->
+    <update id="resetPassword">
+        update user set password=#{pwd} where id=#{id}
+    </update>
+
+    <!--总平台推送消息-->
+    <insert id="addPushContent">
+        insert into shengxian_business_push_message(push_id,title,message,type,create_time)
+        values(#{push_id},#{title},#{message},#{type},#{create_time})
+    </insert>
+
+    <!--启用或禁用-->
+    <update id="updateDisable">
+        <if test="is_disable == 0">
+            UPDATE user set is_disable = #{is_disable} where id=#{id}
+        </if>
+        <if test="is_disable == 1">
+            UPDATE user set is_disable = #{is_disable} ,status = 1 where id =#{id}
+        </if>
+    </update>
+
+    <!--单人或多人-->
+    <update id="updatePower">
+        update user set power =#{power} where id=#{id}
+    </update>
+
+</mapper>

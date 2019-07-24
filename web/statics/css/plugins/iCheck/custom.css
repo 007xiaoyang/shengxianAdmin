@@ -1,0 +1,380 @@
+/* iCheck plugin Square skin, green
+----------------------------------- */
+.icheckbox_square-green,
+.iradio_square-green {
+    display: inline-block;
+    *display: inline;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: 22px;
+    height: 22px;
+    background: url(green.png) no-repeat;
+    border: none;
+    cursor: pointer;
+}
+
+.icheckbox_square-green {
+    background-position: 0 0;
+}
+.icheckbox_square-green.hover {
+    background-position: -24px 0;
+}
+.icheckbox_square-green.checked {
+    background-position: -48px 0;
+}
+.icheckbox_square-green.disabled {
+    background-position: -72px 0;
+    cursor: default;
+}
+.icheckbox_square-green.checked.disabled {
+    background-position: -96px 0;
+}
+
+.iradio_square-green {
+    background-position: -120px 0;
+}
+.iradio_square-green.hover {
+    background-position: -144px 0;
+}
+.iradio_square-green.checked {
+    background-position: -168px 0;
+}
+.iradio_square-green.disabled {
+    background-position: -192px 0;
+    cursor: default;
+}
+.iradio_square-green.checked.disabled {
+    background-position: -216px 0;
+}
+
+/* HiDPI support */
+@media (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+    .icheckbox_square-green,
+    .iradio_square-green {
+        background-image: url(green%402x.png);
+        -webkit-background-size: 240px 24px;
+        background-size: 240px 24px;
+    }
+}
+
+.juese_list {
+    margin-right: 20px;
+}
+.juese_box{
+    width:400px;
+    background: #fff;
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    margin-left: -200px;
+    display: none;
+    z-index: 10;
+    box-shadow: 10px 10px 15px #ddd;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.mask{
+    width: 100%;
+    height: 100%;
+    opacity:0.6;
+    filter:alpha(opacity=60);
+    display: none;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:100;
+    background: silver;
+}
+.juese_cell{
+    float: left;
+}
+.juese_row{
+    overflow: hidden;
+    margin-bottom: 15px;
+    margin-left: 20px;
+}
+.jues_tit{
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+.jues_add{
+    position: absolute;
+    right: 38px;
+    top: 6px;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    background: #1bb394;
+    color: #fff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.jues_add:hover{
+    color: #fff;
+}
+.jues_add:link{
+    color: #fff;
+}
+.juese_l input{
+    height: 30px;
+    line-height: 30px;
+    width: 200px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding-left: 10px;
+    outline: none;
+    border:none;
+    border: 1px solid #ddd;
+}
+.juese_cnt{
+    padding: 0 15px;
+}
+.juese_r{
+    height: 30px;
+    width: 80px;
+    border: 1px solid #ddd;
+    line-height: 30px;
+    text-align: center;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.jues_x{
+    height: 25px;
+    width: 25px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 20px;
+    text-align: center;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
+    background: #fff;
+    color: #999;
+    cursor: pointer;
+}
+.jues_bc{
+    text-align: center;
+    padding: 20px 0;
+}
+.jues_bc a{
+    display: inline-block;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    background: #1bb394;
+    color: #fff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+/*----------------------------------------------*/
+.juese_list {
+    margin-right: 20px;
+}
+.juese_box{
+    width:400px;
+    background: #fff;
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    margin-left: -200px;
+    display: none;
+    z-index: 10;
+    box-shadow: 10px 10px 15px #ddd;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.mask{
+    width: 100%;
+    height: 100%;
+    opacity:0.6;
+    filter:alpha(opacity=60);
+    display: none;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:100;
+    background: silver;
+}
+.juese_cell{
+    float: left;
+}
+.juese_row{
+    overflow: hidden;
+    margin-bottom: 15px;
+    margin-left: 20px;
+}
+.jues_tit{
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+.jues_add{
+    position: absolute;
+    right: 38px;
+    top: 6px;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    background: #1bb394;
+    color: #fff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.jues_add:hover{
+    color: #fff;
+}
+.jues_add:link{
+    color: #fff;
+}
+.juese_l input{
+    height: 30px;
+    line-height: 30px;
+    width: 200px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding-left: 10px;
+    outline: none;
+    border:none;
+    border: 1px solid #ddd;
+}
+.juese_cnt{
+    padding: 0 15px;
+}
+.juese_r{
+    height: 30px;
+    width: 80px;
+    border: 1px solid #ddd;
+    line-height: 30px;
+    text-align: center;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.jues_x{
+    height: 25px;
+    width: 25px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 20px;
+    text-align: center;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
+    background: #fff;
+    color: #999;
+    cursor: pointer;
+}
+.jues_bc{
+    text-align: center;
+    padding: 20px 0;
+}
+.jues_bc a{
+    display: inline-block;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    background: #1bb394;
+    color: #fff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+
+/*限时冻结弹出框样式*/
+ul,li{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.xsdj{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    display: none;
+    background: #fff;
+    z-index:10;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.dj_ul{
+    overflow: hidden;
+}
+.dj_ul li{
+    float: left;
+    width:70%;
+    box-sizing: border-box;
+    padding-top: 10px;
+    border-top:1px solid #ddd;
+    text-align: center;
+}
+.bor{
+    border-right: 1px solid #ddd;
+}
+.dj_tit{
+    padding:10px 20px;
+}
+.shu_input input{
+    padding: 8px;
+}
+.shu_input{
+    margin-bottom: 15px;
+    padding: 0 20px;
+}
+
+/*否决弹出框样式*/
+.xsdj1{
+    width:362px;
+}
+.xsdj1 .reason{
+    resize: none;
+    border: 2px solid #ddd;
+    height: 100px;
+    width: 100%;
+}
+
+.xsdj{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    display: none;
+    background: #fff;
+    z-index:300;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.dj_tit{
+    padding: 15px 20px;
+}
+.dj_ul li{
+    padding: 20px 0;
+}
+.dj_ul{
+    display:flex;
+}
+.dj_ul li{
+    flex:2;
+}
+
+.bor:hover{background-color: #0d8ddb}
+.quxiao:hover{background-color: red;}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hwhl.shengxian.mapper.system.AdminRoleMapper" >
+    <select id="findRoleById" resultType="String">
+        select role from notesnic_admin_role where id=#{0}
+    </select>
+
+    <select id="findAllAdminRole" resultType="HashMap">
+        select id,rolename from notesnic_admin_role where is_del=0
+    </select>
+
+    <select id="findCount" resultType="Integer">
+        select count(id) from notesnic_admin_role where is_del=0
+        <if test="id!=null">
+            and id=#{id}
+        </if>
+        <if test="rolename!=null">
+            and rolename like #{rolename}
+        </if>
+    </select>
+
+    <select id="findAdminRoleByPage" resultType="com.hwhl.shengxian.entity.system.AdminRole">
+        select id,rolename,createtime,updatetime from notesnic_admin_role where is_del=0
+        <if test="id!=null">
+            and id=#{id}
+        </if>
+        <if test="rolename!=null">
+            and rolename like #{rolename}
+        </if>
+        order by createtime desc,id desc
+        limit #{0},#{1}
+    </select>
+
+    <insert id="addAdminRole">
+        insert into notesnic_admin_role(rolename,role,createtime) value(#{0},#{1},#{2})
+    </insert>
+
+    <select id="findAdminRoleById" resultType="AdminRole">
+        select id,rolename,role from notesnic_admin_role where id=#{0}
+    </select>
+
+    <update id="updateAdminRole">
+        update notesnic_admin_role set rolename=#{1},role=#{2},updatetime=#{3} where id=#{0}
+    </update>
+
+    <update id="deleteAdminRole">
+        update notesnic_admin_role set is_del=1 where id=#{0}
+    </update>
+</mapper>
