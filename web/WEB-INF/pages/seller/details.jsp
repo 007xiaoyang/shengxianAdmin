@@ -134,7 +134,6 @@
         });
     };
     var  id = $("#id").val();
-    var store_name = $("#store_name").val();
     //进入页面加载
     $(function () {
 
@@ -143,11 +142,13 @@
 
     //输入框搜索
     $(document).on("click",".search",function () {
+        var store_name = $(".store_name").val();
         findBingingList(1,id ,store_name);
     });
     //点击页数
     function funBingingList(){
         $("#pagecount span a").on('click',function(){
+            var store_name = $(".store_name").val();
             var rel = $(this).attr("rel");
             if(rel){
                 findBingingList(rel , id ,store_name);

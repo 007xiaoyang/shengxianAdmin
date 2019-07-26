@@ -126,6 +126,8 @@
     //商家挑选搜索
     $(document).on("click",".a_name",function () {
         var bid = $(this).find("input").val();
+        var spanName = $(this).find("span:eq(0)").html();
+        $("#store_name").val(spanName);
         findWitnesses("",bid,"");
     });
     //输入框搜索
@@ -145,7 +147,8 @@
     };
     $(document).on("click",".go",function () {
         var jumpPage = $(".jumpPage").val();
-        findWitnesses(jumpPage,"");
+        var store_name = $("#store_name").val();
+        findWitnesses(jumpPage,"",store_name);
     });
 </script>
 </body>

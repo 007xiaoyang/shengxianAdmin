@@ -174,23 +174,6 @@
            $(".sendSMS").val("888");
            $('#myModal').modal('show');
 
-          /* $.ajax({
-               url:"../seller/sendSms.do",
-               type:"post",
-               data:{phone:phone},
-               success:function (res) {
-                   if (res.code == 1){
-                       $(".uid").val(vid);
-                       $(".sendSMS").val(res.data);
-                       $('#myModal').modal('show');
-                   }else {
-                       toastr.error("获取验证码失败");
-                   }
-               },
-               error:function (res) {
-                   toastr.error(res.info);
-               }
-           });*/
         })
     });
 

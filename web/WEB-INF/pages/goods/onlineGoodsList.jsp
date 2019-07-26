@@ -127,6 +127,8 @@
     //商家挑选搜索
     $(document).on("click",".a_name",function () {
         var bid = $(this).find("input").val();
+        var spanName = $(this).find("span:eq(0)").html();
+        $("#store_name").val(spanName);
         onlineGoods("",bid,"","");
     });
     //输入框搜索
@@ -147,8 +149,10 @@
         });
     };
     $(document).on("click",".go",function () {
+        var store_name = $("#store_name").val();
+        var gname = $("#gname").val();
         var jumpPage = $(".jumpPage").val();
-        onlineGoods(jumpPage,"");
+        onlineGoods(jumpPage,"",store_name ,gname);
     });
 </script>
 </body>

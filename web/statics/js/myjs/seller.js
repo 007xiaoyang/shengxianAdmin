@@ -33,7 +33,7 @@ function findBuseinss(pageNo,business_id,store_name) {
     $.ajax({
        url:"../seller/sellerList.do",
        type:"post",
-       data:{pageNo:pageNo,business_id:business_id,name:store_name},
+       data:{pageNo:pageNo,business_id:business_id,storeName:store_name},
         beforeSend:function(){
             $(".business").append("<td class='xuan'>loading...</td>");//显示加载动画
         },

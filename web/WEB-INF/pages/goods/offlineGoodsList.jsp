@@ -124,9 +124,12 @@
     $(function () {
         underGoods();
     });
+    var bid ;
     //商家挑选搜索
     $(document).on("click",".a_name",function () {
-        var bid = $(this).find("input").val();
+        bid = $(this).find("input").val();
+        var spanNam = $(this).find("span:eq(0)").html();
+        $("#store_name").val(spanNam);
         underGoods("",bid,"","");
     });
     //输入框搜索
@@ -138,15 +141,19 @@
     //点击页数
     function funUnderGoods(){
         $("#pagecount span a").on('click',function(){
+            var store_name = $("#store_name").val();
+            var gname = $("#gname").val();
             var rel = $(this).attr("rel");
             if(rel){
-                underGoods(rel,"");
+                underGoods(rel ,"",store_name ,gname);
             }
         });
     };
     $(document).on("click",".go",function () {
         var jumpPage = $(".jumpPage").val();
-        underGoods(jumpPage,"");
+        var store_name = $("#store_name").val();
+        var gname = $("#gname").val();
+        underGoods(jumpPage,"",store_name,gname);
     });
 </script>
 </body>

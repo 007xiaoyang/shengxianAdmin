@@ -135,7 +135,11 @@ public class SellerController {
     public Message sellerList(Integer pageNo,Integer  business_id , String storeName){
         Message message = Message.non();
         try {
-            Page page = sellerService.findSellerList(pageNo,business_id, storeName);
+            String trimName = storeName;
+            if (storeName != null && storeName != ""){
+               trimName = storeName.trim();
+            }
+            Page page = sellerService.findSellerList(pageNo,business_id, trimName);
             return message.code(Message.codeSuccessed).data(page).message("获取成功");
         }catch (Exception e){
             return message.code(Message.codeFailured).message(Global.ERROR);
@@ -368,7 +372,11 @@ public class SellerController {
     @ResponseBody
     public Message Details(Integer id,Integer pageNo,String name){
         Message message = Message.non();
-        Page page = sellerService.selectCustomerListById(id, pageNo, name);
+        String trimName = name;
+        if (name != null && name != ""){
+            trimName = name.trim();
+        }
+        Page page = sellerService.selectCustomerListById(id, pageNo, trimName);
         return message.code(Message.codeSuccessed).data(page).message("获取成功");
     }
 

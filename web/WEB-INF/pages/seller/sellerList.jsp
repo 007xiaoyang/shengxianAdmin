@@ -58,7 +58,7 @@
 								<span class="input-group-btn">
                                         <button type="button" class="btn btn-sm btn-default" disabled>服务商/编号：</button>
                                 </span>
-                                <input type="text"  value="" id="" autocomplete="off" data-id="" alt="" class="input-sm form-control" name=""/>
+                                <input id="store_name" type="text"  value=""  autocomplete="off" data-id="" alt="" class="input-sm form-control" name=""/>
                             </div>
                             <div class="btn-group-sm menu ">
                                 <button type="button" class="btn btn-default dropdown-toggle dropdown" data-toggle="dropdown">
