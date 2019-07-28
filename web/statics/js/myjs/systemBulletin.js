@@ -33,7 +33,7 @@ $(".addSystemBulletin").click(function(){
 //修改管理员验证码
 $(".UpdateSystemBulletin").click(function(){
     var id = $(this).attr("val");
-    var phone ="17689704036";
+    var phone ="18927429991";
     layer.confirm("是否获取手机验证码?",{
         btn:["确认","取消"]
     },function(d){

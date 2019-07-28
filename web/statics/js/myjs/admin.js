@@ -54,7 +54,7 @@ $(".addAdmin").on("click",function () {
 //修改管理员验证码
 $(".update").click(function(){
     var id = $(this).attr("val");
-    var phone ="17689704036";
+    var phone ="18927429991";
     layer.confirm("是否获取手机验证码?",{
         btn:["确认","取消"]
     },function(d){
@@ -123,7 +123,7 @@ $(".deteleAdmind").click(function() {
 //修改时间权限
 //发送验证码权限
 $(".adopt").click(function(){
-    var phone ="17689704036";
+    var phone ="18927429991";
     layer.confirm("是否获取手机验证码?",{
         btn:["确认","取消"]
     },function(d){

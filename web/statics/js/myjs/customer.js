@@ -121,7 +121,7 @@ function find(pageNo,phone) {
 //跳转到删除客户窗口
 $(document).on("click",".detele",function () {
     var cid = $(this).attr("val");
-    var phone ="17689704036";
+    var phone ="18927429991";
     layer.confirm("是否获取手机验证码?",{
         btn:["确认","取消"]
     },function(d){
