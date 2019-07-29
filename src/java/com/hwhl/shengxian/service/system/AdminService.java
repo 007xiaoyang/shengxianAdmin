@@ -35,6 +35,13 @@ public interface AdminService {
     public List<Menu> findAdminList(Integer role_id);
 
     /**
+     * 判断当前用户登录成功后默认加载首页的权限
+     * @param roleId
+     * @return
+     */
+    Integer selectAdminLoginIsSellerMenuRole(Integer roleId);
+
+    /**
      * 查询用户权限
      * @param rid
      * @param adminListId

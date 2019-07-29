@@ -30,6 +30,13 @@ public interface MenuMapper {
     List<Menus> homeTwoMenu(@Param("id") Integer role_id ,@Param("menuid") Integer menuid);
 
     /**
+     * 判断当前用户登录成功后默认加载首页的权限
+     * @param roleId
+     * @return
+     */
+    Integer selectAdminLoginIsSellerMenuRole(@Param("id") Integer roleId );
+
+    /**
      * 查询后台一级列表
      * @return
      */

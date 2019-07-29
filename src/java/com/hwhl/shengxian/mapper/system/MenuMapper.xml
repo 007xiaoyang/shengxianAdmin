@@ -26,6 +26,10 @@
     </select>
 
 
+    <select id="selectAdminLoginIsSellerMenuRole" resultType="Integer">
+        select 6 as menuId  from notesnic_admin_role where id = #{id} and FIND_IN_SET(6,role)
+    </select>
+
 
     <sql id="key">
         <trim suffixOverrides=",">

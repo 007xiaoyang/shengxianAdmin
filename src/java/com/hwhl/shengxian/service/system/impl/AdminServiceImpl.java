@@ -62,6 +62,11 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
+    public Integer selectAdminLoginIsSellerMenuRole(Integer roleId) {
+        return menuMapper.selectAdminLoginIsSellerMenuRole(roleId);
+    }
+
+    @Override
     public Boolean findAdminRole(Integer rid, Integer adminListId) {
         String role=adminRoleMapper.findRoleById(rid);
         int num=role.indexOf(""+adminListId);

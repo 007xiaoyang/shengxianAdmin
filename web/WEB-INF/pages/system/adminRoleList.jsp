@@ -90,7 +90,7 @@
                                         <i class="fa fa-edit"></i>
                                         <span class="bold">修改</span>
                                     </button>
-                                    <button class="btn btn-danger btn-sm" type="button" val="${adminRole.id}" <c:if test="${adminRole.id==1}">disabled</c:if>>
+                                    <button class="btn btn-danger btn-sm deleteAdminRole" type="button" val="${adminRole.id}" <c:if test="${adminRole.id==1}">disabled</c:if>>
                                         <i class="fa fa-trash-o"></i>
                                         <span class="bold">删除</span>
                                     </button>

@@ -63,10 +63,10 @@ $(".confirm").on("click",function () {
     });
 });
 
-
-$(".operation .btn-white").click(function() {
+//删除权限
+$(".deleteAdminRole").click(function() {
     var id = $(this).attr("val");
-    layer.confirm("删除该角色将无法恢复,是否确认?", {
+    layer.confirm("删除该权限将无法恢复,是否确认?", {
         btn: ["确定", "取消"]
     }, function() {
         $.ajax({

@@ -35,7 +35,8 @@
                                 <span class="clear">
                                <span class="block m-t-xs"><strong class="font-bold">${sessionScope.admin.username}</strong></span>
                                 <span class="text-muted text-xs block">${sessionScope.admin.admin_role}</span>
-								<a href="../admin/logout.do">安全退出</a>
+								<a href="../admin/logout.do">安全退出 </a>
+
                                 </span>
                         </a>
                     </div>
@@ -113,7 +114,7 @@
             <!--     <a href="/manage.php/Index/getout.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>-->
         </div>
         <div class="row J_mainContent" id="content-main">
-            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="../seller/JumpSellerList.do" frameborder="0" seamless></iframe>
+            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="${smrUrl}" frameborder="0" seamless></iframe>
 
         </div>
         <div class="footer">

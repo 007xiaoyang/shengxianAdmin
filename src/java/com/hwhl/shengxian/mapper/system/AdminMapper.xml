@@ -74,6 +74,6 @@
     </update>
 
     <select id="findAdminCountById" resultType="Integer">
-        select count(id) from notesnic_admin where admin_role_id=#{0}
+        select count(id) from notesnic_admin where admin_role_id =#{0} and is_del = 0
     </select>
 </mapper>

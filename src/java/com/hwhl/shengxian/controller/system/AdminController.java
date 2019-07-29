@@ -76,6 +76,12 @@ public class AdminController {
             List<Menu> adminLists = adminService.findAdminList((Integer)admin.get("admin_role_id"));
             request.setAttribute("adminLists", adminLists);
 
+            //判断当前用户登录成功后默认加载首页的权限
+            Integer sellerMenuRole = adminService.selectAdminLoginIsSellerMenuRole((Integer) admin.get("admin_role_id"));
+            if (sellerMenuRole != null ){
+                request.setAttribute("smrUrl", "../seller/JumpSellerList.do");
+            }
+
             Integer bid=null;
             Cookie[] cookies=request.getCookies();
             if (cookies != null){
