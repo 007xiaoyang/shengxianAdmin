@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>生鲜管理后台 - 登录</title>
-  <meta name="keywords" content="生鲜管理后台">
-  <meta name="description" content="生鲜管理后台">
+  <title>必须有管理平台 - 登录</title>
+  <meta name="keywords" content="必须有管理平台">
+  <meta name="description" content="必须有管理平台">
   <link rel="shortcut icon" href="statics/img/APPLOGO.jpg">
   <link href="statics/css/bootstrap.min.css" rel="stylesheet">
   <link href="statics/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
@@ -66,7 +66,7 @@
     </div>
     <div class="col-sm-5">
       <form method="post" action="admin/login.do" id="signupForm" class=" m-t">
-        <h2 style="color: rgb(102, 100, 100);font-weight:900;">生鲜管理后台</h2>
+        <h2 style="color: rgb(102, 100, 100);font-weight:900;">必须有管理平台</h2>
         <p class="m-t-md" style="  color: rgb(102, 100, 100);"></p>
 
         <div class="form-group">
@@ -88,7 +88,7 @@
   </div>
   <div class="signup-footer">
     <div class="pull-left" style="width: 94%;text-align: center;color: rgb(102, 100, 100);color: #030303">
-      &copy; 2018 All Rights Reserved. 生鲜管理后台
+      &copy; 2018 All Rights Reserved. 必须有管理平台
     </div>
   </div>
 </div>

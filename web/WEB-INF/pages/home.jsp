@@ -8,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <title>生鲜后台 - 主页</title>
-    <meta name="keywords" content="生鲜后台">
-    <meta name="description" content="生鲜后台">
+    <title>必须有管理平台 - 主页</title>
+    <meta name="keywords" content="必须有管理平台">
+    <meta name="description" content="必须有管理平台">
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
@@ -40,7 +40,7 @@
                                 </span>
                         </a>
                     </div>
-                    <div class="logo-element">生鲜后台
+                    <div class="logo-element">必须有管理平台
                     </div>
                 </li>
 
@@ -118,7 +118,7 @@
 
         </div>
         <div class="footer">
-            <div class="pull-right">&copy; 2015-2016 <a>生鲜</a>
+            <div class="pull-right">&copy; 2015-2016 <a>必须有</a>
             </div>
         </div>
     </div>
