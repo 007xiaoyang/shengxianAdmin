@@ -3,7 +3,8 @@
 <mapper namespace="com.hwhl.shengxian.mapper.system.AdminMapper" >
 
     <select id="findAdmin" resultType="HashMap">
-        select id,username,(select rolename from notesnic_admin_role where id=a.admin_role_id) admin_role,admin_role_id,is_del,jur
+        select id,username,(select rolename from notesnic_admin_role where id=a.admin_role_id) admin_role,
+        admin_role_id,is_del,jur
         from notesnic_admin a where account=#{0} and `password`=#{1}
     </select>
 
@@ -72,6 +73,25 @@
     <update id="recordLoginTime">
         update notesnic_admin set logintime=#{1} where id=#{0}
     </update>
+
+    <select id="findAccountAndLoginTime" resultType="Integer">
+        select id  from notesnic_admin_loginfail where account = #{account} and failTime = #{failTime};
+    </select>
+
+    <select id="findFailLoginCount" resultType="Integer">
+        select failCount  from notesnic_admin_loginfail where account = #{account} and failTime = #{failTime};
+    </select>
+    
+    <!--记录登录失败次数-->
+    <insert id="addLoginFailCount">
+       insert into notesnic_admin_loginfail (account  , failCount ,failTime )
+       values (#{account} , 1 , #{failTime});
+    </insert>
+
+    <update id="updateLoginFailCount">
+        update notesnic_admin_loginfail set failCount = failCount + 1 where id = #{id}
+    </update>
+
 
     <select id="findAdminCountById" resultType="Integer">
         select count(id) from notesnic_admin where admin_role_id =#{0} and is_del = 0

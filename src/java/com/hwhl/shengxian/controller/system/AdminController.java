@@ -41,22 +41,32 @@ public class AdminController {
      */
     @RequestMapping("/login")
     public String login(String account, String password, String verify, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        HttpSession session=request.getSession();
+            HttpSession session=request.getSession();
         String rand = (String) session.getAttribute("rand");
         //if (verify.toLowerCase().equals(rand)) {
         HashMap admin = adminService.findLogin(account, password);
         if (admin == null) {
+            //统计
+            Integer failCount = adminService.findFailLoginCount(account);
+            if (failCount != null && failCount > 3 ){
+                request.setAttribute("result" ,"您登录失败次数已经超过每天限制三次机会了哦");
+            }else {
                 request.setAttribute("result", "账号或密码错误");
+            }
         }else if ((Integer)admin.get("is_del") == 0){//正常状态，登陆成功，写入cookie
-            session.setAttribute("admin", admin);
-            Cookie cookie = new Cookie("admin", admin.get("id").toString());
-            cookie.setPath("/");
-            response.addCookie(cookie);
-            String username = (String) admin.get("username");
-            session.setAttribute("admin",admin);
-            session.setAttribute("USER_ID",username);//做日志处理时的用户
-            session.setAttribute("pwd",password);//特别需要
-            return "redirect:findAdminList.do";
+            if (admin.get("failCount") != null && Integer.valueOf(admin.get("failCount").toString() ) > 3){
+                request.setAttribute("result" ,"您登录失败次数已经超过今天的限制次数了");
+            }else {
+                session.setAttribute("admin", admin);
+                Cookie cookie = new Cookie("admin", admin.get("id").toString());
+                cookie.setPath("/");
+                response.addCookie(cookie);
+                String username = (String) admin.get("username");
+                session.setAttribute("admin",admin);
+                session.setAttribute("USER_ID",username);//做日志处理时的用户
+                session.setAttribute("pwd",password);//特别需要
+                return "redirect:findAdminList.do";
+            }
         }else if ((Integer) admin.get("is_del") == 1) {//营业状态
             request.setAttribute("result", "当前用户已被冻结");
         }

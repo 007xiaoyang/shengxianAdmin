@@ -3,6 +3,8 @@ package com.hwhl.shengxian.mapper.system;
 import com.hwhl.shengxian.entity.system.Admin;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -98,6 +100,26 @@ public interface AdminMapper {
      * @return
      */
     public Integer recordLoginTime(Integer id,Long loginTime);
+
+
+    public Integer findAccountAndLoginTime(@Param("account") String account , @Param("failTime") String failTime );
+
+    public Integer findFailLoginCount(@Param("account") String account , @Param("failTime") String failTime );
+
+    /**
+     * 记录登录失败次数
+     * @param account
+     * @param failTime
+     * @return
+     */
+    public Integer addLoginFailCount(@Param("account") String account , @Param("failTime") Date failTime );
+
+
+    /**
+     * 修改登录失败次数
+     * @return
+     */
+    public Integer updateLoginFailCount(@Param("id") Integer id );
 
     /**
      * 查询该角色id下管理员总数

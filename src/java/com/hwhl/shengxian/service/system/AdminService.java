@@ -21,6 +21,8 @@ public interface AdminService {
      */
     public HashMap findLogin(String account, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException;
 
+    Integer findFailLoginCount(String account);
+
     /**
      * 根据角色id查询角色权限
      * @param adminRoleId

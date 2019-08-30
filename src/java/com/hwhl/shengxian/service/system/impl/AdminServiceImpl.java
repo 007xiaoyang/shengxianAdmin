@@ -7,6 +7,7 @@ import com.hwhl.shengxian.mapper.system.MenuMapper;
 import com.hwhl.shengxian.mapper.system.AdminMapper;
 import com.hwhl.shengxian.mapper.system.AdminRoleMapper;
 import com.hwhl.shengxian.service.system.AdminService;
+import com.hwhl.shengxian.util.FormatDate;
 import com.hwhl.shengxian.util.Global;
 import com.hwhl.shengxian.util.Page;
 import com.hwhl.shengxian.util.PasswordMD5;
@@ -37,10 +38,30 @@ public class AdminServiceImpl implements AdminService{
         password = PasswordMD5.EncoderByMd5(password+ Global.PASSWORDKEY);
         HashMap admin=adminMapper.findAdmin(account,password);
         if(admin!=null){
-            //记录登录时间
-            adminMapper.recordLoginTime((Integer)admin.get("id"),new Date().getTime());
+            Integer failCount = adminMapper.findFailLoginCount(account, FormatDate.getDateFromat(new Date()));
+            if (failCount != null && failCount < 4 ){
+                //记录登录时间
+                adminMapper.recordLoginTime((Integer)admin.get("id"),new Date().getTime());
+            }
+            admin.put("failCount" ,failCount);
+
+        }else {
+
+            Integer failId = adminMapper.findAccountAndLoginTime(account, FormatDate.getDateFromat(new Date()) );
+            if (failId == null ){
+                //记录登录失败次数
+                adminMapper.addLoginFailCount( account , new Date() );
+            }else {
+                adminMapper.updateLoginFailCount( failId );
+            }
+
         }
         return admin;
+    }
+
+    @Override
+    public Integer findFailLoginCount(String account) {
+        return adminMapper.findFailLoginCount(account , FormatDate.getDateFromat(new Date()));
     }
 
     @Override
